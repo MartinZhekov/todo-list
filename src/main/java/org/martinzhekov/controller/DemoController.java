@@ -18,4 +18,9 @@ public class DemoController {
     public String demo(){
         return "This is a test";
     }
+
+    @GetMapping("view")
+    public String demoView(){
+        return "demoView";
+    }
 }
