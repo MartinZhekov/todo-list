@@ -12,16 +12,17 @@ import java.util.ListIterator;
 public class TodoData {
     // == fields ==
     private static int idValue = 1;
+
     private final List<TodoItem> items = new ArrayList<>();
 
-    // == constructor ==
-    public TodoData(){
-        // add some dummy data, using the addItem method so it sets to id field
-        addItem(new TodoItem("first", "firstDetails", LocalDate.now()));
-        addItem(new TodoItem("second", "second", LocalDate.now()));
-        addItem(new TodoItem("third", "third", LocalDate.now()));
-        addItem(new TodoItem("fourth", "fourth", LocalDate.now()));
-        addItem(new TodoItem("fifth", "fifth", LocalDate.now()));
+    // == constructors ==
+    public TodoData() {
+
+        // add some dummy data, using the addItem method so it sets the id field
+        addItem(new TodoItem("first", "first details", LocalDate.now()));
+        addItem(new TodoItem("second", "second details", LocalDate.now()));
+        addItem(new TodoItem("third", "third details", LocalDate.now()));
+        addItem(new TodoItem("fourth", "fourth details", LocalDate.now()));
     }
 
     // == public methods ==
@@ -30,6 +31,7 @@ public class TodoData {
     }
 
     public void addItem(@NonNull TodoItem toAdd) {
+
         toAdd.setId(idValue);
         items.add(toAdd);
         idValue++;
@@ -38,10 +40,10 @@ public class TodoData {
     public void removeItem(int id) {
         ListIterator<TodoItem> itemIterator = items.listIterator();
 
-        while (itemIterator.hasNext()) {
+        while(itemIterator.hasNext()) {
             TodoItem item = itemIterator.next();
 
-            if (item.getId() == id) {
+            if(item.getId() == id) {
                 itemIterator.remove();
                 break;
             }
@@ -49,22 +51,21 @@ public class TodoData {
     }
 
     public TodoItem getItem(int id) {
-        for (TodoItem item : items) {
-            if (item.getId() == id) {
+        for(TodoItem item : items) {
+            if(item.getId() == id) {
                 return item;
             }
         }
-
         return null;
     }
 
     public void updateItem(@NonNull TodoItem toUpdate) {
         ListIterator<TodoItem> itemIterator = items.listIterator();
 
-        while (itemIterator.hasNext()) {
+        while(itemIterator.hasNext()) {
             TodoItem item = itemIterator.next();
 
-            if (item.equals(toUpdate)) {
+            if(item.equals(toUpdate)) {
                 itemIterator.set(toUpdate);
                 break;
             }

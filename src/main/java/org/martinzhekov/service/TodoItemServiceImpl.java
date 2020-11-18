@@ -7,7 +7,7 @@ import org.martinzhekov.model.TodoItem;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TodoItemServiceImpl implements TodoItemService{
+public class TodoItemServiceImpl implements TodoItemService {
 
     // == fields ==
     @Getter
