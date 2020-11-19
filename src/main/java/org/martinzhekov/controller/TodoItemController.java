@@ -10,7 +10,10 @@ import org.martinzhekov.util.ViewNameConstantContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -41,8 +44,14 @@ public class TodoItemController {
     }
 
     @GetMapping(MappingConstantContainer.ADD_ITEM)
-    public String addEditItem(Model model) {
-        TodoItem todoItem = new TodoItem("", "", LocalDate.now());
+    public String addEditItem(@RequestParam(required = false, defaultValue = "-1") int id, Model model) {
+        log.info("editing id={}", id);
+        TodoItem todoItem = todoItemService.getItem(id);
+
+        if (todoItem == null) {
+            todoItem = new TodoItem("", "", LocalDate.now());
+        }
+
         model.addAttribute(AttributeNameContainer.TODO_ITEM, todoItem);
         return ViewNameConstantContainer.ADD_ITEM;
     }
@@ -50,12 +59,18 @@ public class TodoItemController {
     @PostMapping(MappingConstantContainer.ADD_ITEM)
     public String processItem(@ModelAttribute(AttributeNameContainer.TODO_ITEM) TodoItem todoItem) {
         log.info("todoItem from from = {}", todoItem);
-        todoItemService.addItem(todoItem);
+
+        if (todoItem.getId() == 0) {
+            todoItemService.addItem(todoItem);
+        } else {
+            todoItemService.updateItem(todoItem);
+        }
+
         return "redirect:/" + MappingConstantContainer.ITEMS;
     }
 
     @GetMapping(MappingConstantContainer.DELETE_ITEM)
-    public String deleteItem(@RequestParam int id){
+    public String deleteItem(@RequestParam int id) {
         log.info("Deleting item with id={}", id);
         todoItemService.removeItem(id);
         return "redirect:/" + MappingConstantContainer.ITEMS;
